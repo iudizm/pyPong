@@ -7,3 +7,4 @@ A basic Pong game made in python for learning reasons.
 - Turtle Graphics
 
 ## License
+- MIT
