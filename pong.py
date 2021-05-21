@@ -35,7 +35,7 @@ bola.shape("circle")
 bola.color("black")
 bola.penup()
 bola.goto(0, 0)
-bola.dx = 0.15
+bola.dx = 0.25
 bola.dy = 0.15
 
 # Pen
