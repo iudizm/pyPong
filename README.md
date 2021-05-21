@@ -1,5 +1,7 @@
 # pyPong
 
+![DEMO](demo.gif)
+
 ## About
 A basic Pong game made in python for learning reasons.
 
