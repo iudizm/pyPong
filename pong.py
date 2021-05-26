@@ -1,4 +1,4 @@
-import turtle
+import turtle, math
 
 def updateScoreboard():
     pen.clear()
@@ -37,6 +37,10 @@ window.title("PONG     ~iudizm")
 window.bgcolor("grey")
 window.setup(width=800, height=600)
 window.tracer(0)
+
+verticalBoardLimit = (window.window_height() / 2) - 10
+horizontalBoardLimit = (window.window_width() / 2) - 10
+playerRectanglePosition = (turtle.window_width() / 2) -60
 
 pointsPlayer1 = 0
 pointsPlayer2 = 0
@@ -77,21 +81,21 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
-    if ball.ycor() > 290:
-        ball.sety(290)
+    if ball.ycor() > (verticalBoardLimit) :
+        ball.sety(verticalBoardLimit)
         ball.dy *= -1
 
-    if ball.ycor() < -290:
-        ball.sety(-290)
+    if ball.ycor() < -verticalBoardLimit:
+        ball.sety(-verticalBoardLimit)
         ball.dy *= -1
 
-    if ball.xcor() < -390:
+    if ball.xcor() < -horizontalBoardLimit:
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer2 += 1
         updateScoreboard()
 
-    if ball.xcor() > 390:
+    if ball.xcor() > horizontalBoardLimit:
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer1 += 1
@@ -100,10 +104,7 @@ while True:
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < p2.ycor() + 50 and ball.ycor() > p2.ycor()-50):
         ball.setx(340)
         ball.dx *= -1
+
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < p1.ycor() + 50 and ball.ycor() > p1.ycor()-50):
         ball.setx(-340)
         ball.dx *= -1
-
-    if p1.ycor() > 250:
-        yplayer1 = p1.ycor()
-        p1.sety(yplayer1)
