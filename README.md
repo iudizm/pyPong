@@ -11,8 +11,9 @@ A basic Pong game made in python for learning reasons.
 sudo apt install python3-tk
 ```
 
-***Play pyPong*** 
- - `python3 pong.py`
+***Play pyPong:*** 
+
+`python3 pong.py`
 
 ## Made with
 - Turtle Graphics

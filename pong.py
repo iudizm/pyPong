@@ -1,122 +1,118 @@
 import turtle
 
-wn = turtle.Screen()
-wn.title("PONG     ~iudizm")
-wn.bgcolor("grey")
-wn.setup(width=800, height=600)
-wn.tracer(0)  # Nao atualiza a janela
+def updateScoreboard():
+    pen.clear()
+    pen.write("P1: {}   P2: {}".format(pointsPlayer1, pointsPlayer2), align="center", font=("Courier", 24, "bold"))
 
-# Placar
-pts_a = 0
-pts_b = 0
+def createPlayer() :
+    player = turtle.Turtle()
+    player.shape("square")
+    player.color("white")
+    player.shapesize(stretch_wid = 9, stretch_len = 1)
+    player.speed(20)
+    player.penup()
+    return player
 
-# Taco A
-taco_a = turtle.Turtle()
-taco_a.speed(0)
-taco_a.shape("square")
-taco_a.shapesize(stretch_wid=8, stretch_len=1)
-taco_a.color("red")
-taco_a.penup()
-taco_a.goto(-350, 0)
+def player1Up() :
+    y = p1.ycor()
+    y += 20
+    p1.sety(y)
 
-# Taco B
-taco_b = turtle.Turtle()
-taco_b.speed(0)
-taco_b.shape("square")
-taco_b.shapesize(stretch_wid=8, stretch_len=1)
-taco_b.color("blue")
-taco_b.penup()
-taco_b.goto(350, 0)
+def player1Down() :
+    y = p1.ycor()
+    y -= 20
+    p1.sety(y)
 
-# Bola
-bola = turtle.Turtle()
-bola.speed(0)
-bola.shape("circle")
-bola.color("black")
-bola.penup()
-bola.goto(0, 0)
-bola.dx = 0.25
-bola.dy = 0.15
+def player2Up() :
+    y = p2.ycor()
+    y += 20
+    p2.sety(y)
 
-# Pen
+def player2Down() :
+    y = p2.ycor()
+    y -= 20
+    p2.sety(y)
+
+window = turtle.Screen()
+window.title("PONG     ~iudizm")
+window.bgcolor("grey")
+window.setup(width=800, height=600)
+window.tracer(0)
+
+pointsPlayer1 = 0
+pointsPlayer2 = 0
+
 pen = turtle.Turtle()
 pen.speed(0)
 pen.penup()
 pen.ht()
 pen.goto(0, 260)
-pen.write("P1: 0   P2: 0", align="center", font=("Courier", 24, "normal"))
+updateScoreboard()
 
-# Funcoes tacos
-def taco_a_cima():
-    y = taco_a.ycor()
-    y += 20
-    taco_a.sety(y)
+p1 = turtle.Turtle()
+p1.shape("square")
+p1.color("white")
+p1.shapesize(stretch_wid = 9, stretch_len = 1)
+p1.speed(20)
+p1.penup()
+p1.goto(-350, 0)
 
-def taco_a_baixo():
-    y = taco_a.ycor()
-    y -= 20
-    taco_a.sety(y)
+p2 = turtle.Turtle()
+p2.shape("square")
+p2.color("black")
+p2.shapesize(stretch_wid = 9, stretch_len = 1)
+p2.speed(20)
+p2.penup()
+p2.goto(350, 0)
 
-def taco_b_cima():
-    y = taco_b.ycor()
-    y += 20
-    taco_b.sety(y)
+ball = turtle.Turtle()
+ball.speed(0)
+ball.shape("circle")
+ball.color("black")
+ball.penup()
+ball.goto(0, 0)
+ball.dx = 0.25
+ball.dy = 0.15
 
-def taco_b_baixo():
-    y = taco_b.ycor()
-    y -= 20
-    taco_b.sety(y)
+window.listen()
+window.onkeypress(player1Up, "w")
+window.onkeypress(player1Down, "s")
+window.onkeypress(player2Up, "Up")
+window.onkeypress(player2Down, "Down")
 
-# Teclas
-wn.listen()
-wn.onkeypress(taco_a_cima, "w")
-wn.onkeypress(taco_a_baixo, "s")
-wn.onkeypress(taco_b_cima, "Up")
-wn.onkeypress(taco_b_baixo, "Down")
-
-# Loop principal do jogo
 while True:
-    wn.update()  # Atualiza a janela(todo começo de loop)
+    window.update()
 
-    # Mexer a bola
-    bola.setx(bola.xcor() + bola.dx)
-    bola.sety(bola.ycor() + bola.dy)
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
 
-    # Bordas seladas
-    if bola.ycor() > 290:
-        bola.sety(290)
-        bola.dy *= -1
+    if ball.ycor() > 290:
+        ball.sety(290)
+        ball.dy *= -1
 
-    if bola.ycor() < -290:
-        bola.sety(-290)
-        bola.dy *= -1
+    if ball.ycor() < -290:
+        ball.sety(-290)
+        ball.dy *= -1
 
-    if bola.xcor() < -390:
-        bola.goto(0, 0)
-        bola.dx *= -1
-        pts_b += 1
-        pen.clear()
-        pen.write("P1: {}   P2: {}".format(pts_a, pts_b),
-        align="center", font=("Courier", 24, "normal"))
+    if ball.xcor() < -390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        pointsPlayer2 += 1
+        updateScoreboard()
 
-    if bola.xcor() > 390:
-        bola.goto(0, 0)
-        bola.dx *= -1
-        pts_a += 1
-        pen.clear()
-        pen.write("P1: {}   P2: {}".format(pts_a, pts_b),
-                align="center", font=("Courier", 24, "normal"))
+    if ball.xcor() > 390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        pointsPlayer1 += 1
+        updateScoreboard()
 
-    # Colisões
-    # Colisao Taco B
-    if (bola.xcor() > 340 and bola.xcor() < 350) and (bola.ycor() < taco_b.ycor() + 50 and bola.ycor() > taco_b.ycor()-50):
-        bola.setx(340)
-        bola.dx *= -1
-    # Colisao Taco A
-    if (bola.xcor() < -340 and bola.xcor() > -350) and (bola.ycor() < taco_a.ycor() + 50 and bola.ycor() > taco_a.ycor()-50):
-        bola.setx(-340)
-        bola.dx *= -1
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < p2.ycor() + 50 and ball.ycor() > p2.ycor()-50):
+        ball.setx(340)
+        ball.dx *= -1
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < p1.ycor() + 50 and ball.ycor() > p1.ycor()-50):
+        ball.setx(-340)
+        ball.dx *= -1
 
-    if taco_a.ycor() > 250:
-        ytacoa = taco_a.ycor()
-        taco_a.sety(ytacoa)
+    if p1.ycor() > 250:
+        yplayer1 = p1.ycor()
+        p1.sety(yplayer1)
