@@ -1,8 +1,8 @@
-import turtle, math
+import turtle
 
 def updateScoreboard():
     pen.clear()
-    pen.write("P1: {}   P2: {}".format(pointsPlayer1, pointsPlayer2), align="center", font=("Courier", 24, "bold"))
+    pen.write("{}                          {}".format(pointsPlayer1, pointsPlayer2), align="center", font=("Courier", 30, "bold"))
 
 def createPlayer() :
     player = turtle.Turtle()
@@ -33,46 +33,58 @@ def player2Down() :
     y -= 20
     p2.sety(y)
 
-
+# SCREEN CREATION
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+BG_COLOR = "#7c8477"
+L_PADDLE_COLOR = "#d3e4d3"
+R_PADDLE_COLOR = "#181d1a"
+INITIAL_BALL_COLOR = "red"
+WRITING_COLOR = "#c9e0ba"
+
 window = turtle.Screen()
 window.title("PONG     ~iudizm")
-window.bgcolor("#7c8477")
+window.bgcolor(BG_COLOR)
 window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 window.tracer(0)
 
+# PHISICAL LIMITS
 horizontalBoardLimit = (SCREEN_WIDTH / 2) - 10
 verticalBoardLimit = (SCREEN_HEIGHT / 2) - 10
 playerRectanglePosition = (SCREEN_WIDTH / 2) -60
 
+# DRAW SCOREBOARD
 pointsPlayer1 = 0
 pointsPlayer2 = 0
 
 pen = turtle.Turtle()
 pen.speed(0)
-pen.penup()
+pen.pu()
 pen.ht()
-pen.goto(0, 260)
+pen.pencolor(WRITING_COLOR)
+pen.goto(0, 245)
 updateScoreboard()
 
+# PADDLES
 p1 = createPlayer()
-p1.color("#d3e4d3")
+p1.color(L_PADDLE_COLOR)
 p1.goto(-350, 0)
 
 p2 = createPlayer()
-p2.color("#181d1a")
+p2.color(R_PADDLE_COLOR)
 p2.goto(350, 0)
 
+# BALL STUFF
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("circle")
-ball.color("red")
+ball.color(INITIAL_BALL_COLOR)
 ball.penup()
 ball.goto(0, 0)
 ball.dx = 0.29
 ball.dy = 0.15
 
+# INPUT HANDLING
 window.onkeypress(player1Up, "w")
 window.onkeypress(player1Down, "s")
 window.onkeypress(player2Up, "Up")
@@ -109,12 +121,12 @@ while True:
         paddle1 = p1.ycor()
         if paddle1 + 70 >= ball.ycor() >= paddle1 - 70:
             ball.setx(-playerRectanglePosition)
-            ball.color("#d3e4d3")
+            ball.color(L_PADDLE_COLOR)
             ball.dx *= -1
 
     if ball.xcor() > playerRectanglePosition :
         paddle2 = p2.ycor()
         if  paddle2 + 70 >= ball.ycor() >= paddle2 - 70 :
             ball.setx(playerRectanglePosition)
-            ball.color('#181d1a')
+            ball.color(R_PADDLE_COLOR)
             ball.dx *= -1
