@@ -7,9 +7,10 @@ def updateScoreboard():
 def createPlayer() :
     player = turtle.Turtle()
     player.shape("square")
-    player.shapesize(stretch_wid = 9, stretch_len = 1)
+    player.shapesize(stretch_len = 7)
     player.speed(20)
     player.penup()
+    player.left(90)
     return player
 
 def player1Up() :
@@ -32,15 +33,18 @@ def player2Down() :
     y -= 20
     p2.sety(y)
 
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 window = turtle.Screen()
 window.title("PONG     ~iudizm")
-window.bgcolor("grey")
-window.setup(width=800, height=600)
+window.bgcolor("#7c8477")
+window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 window.tracer(0)
 
-verticalBoardLimit = (window.window_height() / 2) - 10
-horizontalBoardLimit = (window.window_width() / 2) - 10
-playerRectanglePosition = (turtle.window_width() / 2) -60
+horizontalBoardLimit = (SCREEN_WIDTH / 2) - 10
+verticalBoardLimit = (SCREEN_HEIGHT / 2) - 10
+playerRectanglePosition = (SCREEN_WIDTH / 2) -60
 
 pointsPlayer1 = 0
 pointsPlayer2 = 0
@@ -53,27 +57,27 @@ pen.goto(0, 260)
 updateScoreboard()
 
 p1 = createPlayer()
-p1.color("white")
+p1.color("#d3e4d3")
 p1.goto(-350, 0)
 
 p2 = createPlayer()
-p2.color("black")
+p2.color("#181d1a")
 p2.goto(350, 0)
 
 ball = turtle.Turtle()
 ball.speed(0)
 ball.shape("circle")
-ball.color("black")
+ball.color("red")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.25
+ball.dx = 0.29
 ball.dy = 0.15
 
-window.listen()
 window.onkeypress(player1Up, "w")
 window.onkeypress(player1Down, "s")
 window.onkeypress(player2Up, "Up")
 window.onkeypress(player2Down, "Down")
+window.listen()
 
 while True:
     window.update()
@@ -85,26 +89,32 @@ while True:
         ball.sety(verticalBoardLimit)
         ball.dy *= -1
 
-    if ball.ycor() < -verticalBoardLimit:
+    if ball.ycor() < -verticalBoardLimit :
         ball.sety(-verticalBoardLimit)
         ball.dy *= -1
 
-    if ball.xcor() < -horizontalBoardLimit:
+    if ball.xcor() < -horizontalBoardLimit :
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer2 += 1
         updateScoreboard()
 
-    if ball.xcor() > horizontalBoardLimit:
+    if ball.xcor() > horizontalBoardLimit :
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer1 += 1
         updateScoreboard()
 
-    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < p2.ycor() + 50 and ball.ycor() > p2.ycor()-50):
-        ball.setx(340)
-        ball.dx *= -1
+    if ball.xcor() <= -playerRectanglePosition :
+        paddle1 = p1.ycor()
+        if paddle1 + 70 >= ball.ycor() >= paddle1 - 70:
+            ball.setx(-playerRectanglePosition)
+            ball.color("#d3e4d3")
+            ball.dx *= -1
 
-    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < p1.ycor() + 50 and ball.ycor() > p1.ycor()-50):
-        ball.setx(-340)
-        ball.dx *= -1
+    if ball.xcor() >= playerRectanglePosition :
+        paddle2 = p2.ycor()
+        if  paddle2 + 70 >= ball.ycor() >= paddle2 - 70 :
+            ball.setx(playerRectanglePosition)
+            ball.color('#181d1a')
+            ball.dx *= -1
