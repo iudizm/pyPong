@@ -1,13 +1,29 @@
 import turtle
 
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+PADDLE_H = 140
+PADDLE_W = 8
+
+BG_COLOR = "#7c8477"
+L_PADDLE_COLOR = "#d3e4d3"
+R_PADDLE_COLOR = "#181d1a"
+INITIAL_BALL_COLOR = "red"
+WRITING_COLOR = "#c9e0ba"
+
+PADDLE_LINE = (SCREEN_WIDTH / 2) - 60
+VERTICAL_BOARD_LIMIT = (SCREEN_HEIGHT / 2) - 10
+HORIZONTAL_BOARD_LIMIT = (SCREEN_WIDTH / 2) - 10
+
 def updateScoreboard():
-    pen.clear()
-    pen.write("{}                          {}".format(pointsPlayer1, pointsPlayer2), align="center", font=("Courier", 30, "bold"))
+    scoreboard.clear()
+    scoreboard.write("{}                         {}".format(pointsPlayer1, pointsPlayer2), align="center", font=("Courier", 30, "bold"))
 
 def createPlayer() :
     player = turtle.Turtle()
     player.shape("square")
-    player.shapesize(stretch_len = 7, stretch_wid=0.5)
+    player.shapesize(stretch_len = PADDLE_H / 20, stretch_wid= PADDLE_W / 20)
     player.speed(20)
     player.penup()
     player.left(90)
@@ -34,35 +50,22 @@ def player2Down() :
     p2.sety(y)
 
 # SCREEN CREATION
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-BG_COLOR = "#7c8477"
-L_PADDLE_COLOR = "#d3e4d3"
-R_PADDLE_COLOR = "#181d1a"
-INITIAL_BALL_COLOR = "red"
-WRITING_COLOR = "#c9e0ba"
-
 window = turtle.Screen()
 window.title("PONG     ~iudizm")
 window.bgcolor(BG_COLOR)
 window.setup(SCREEN_WIDTH, SCREEN_HEIGHT)
 window.tracer(0)
 
-# PHISICAL LIMITS
-horizontalBoardLimit = (SCREEN_WIDTH / 2) - 10
-verticalBoardLimit = (SCREEN_HEIGHT / 2) - 10
-playerRectanglePosition = (SCREEN_WIDTH / 2) -60
-
-# DRAW SCOREBOARD
+# SCOREBOARD
 pointsPlayer1 = 0
 pointsPlayer2 = 0
 
-pen = turtle.Turtle()
-pen.speed(0)
-pen.pu()
-pen.ht()
-pen.pencolor(WRITING_COLOR)
-pen.goto(0, 245)
+scoreboard = turtle.Turtle()
+scoreboard.speed(0)
+scoreboard.pu()
+scoreboard.ht()
+scoreboard.pencolor(WRITING_COLOR)
+scoreboard.goto(0, 245)
 updateScoreboard()
 
 # PADDLES
@@ -97,36 +100,53 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
-    if ball.ycor() > (verticalBoardLimit) :
-        ball.sety(verticalBoardLimit)
+    # ball top bot
+    if ball.ycor() > (VERTICAL_BOARD_LIMIT) :
+        ball.sety(VERTICAL_BOARD_LIMIT)
         ball.dy *= -1
 
-    if ball.ycor() < -verticalBoardLimit :
-        ball.sety(-verticalBoardLimit)
+    if ball.ycor() < -VERTICAL_BOARD_LIMIT :
+        ball.sety(-VERTICAL_BOARD_LIMIT)
         ball.dy *= -1
 
-    if ball.xcor() < -horizontalBoardLimit :
+    # paddle up down
+    if p1.ycor() + 70 >= VERTICAL_BOARD_LIMIT :
+        p1.sety(VERTICAL_BOARD_LIMIT - 70)
+
+    if p1.ycor() - 70 <= -VERTICAL_BOARD_LIMIT :
+        p1.sety(-VERTICAL_BOARD_LIMIT + 70)
+
+    # paddle 2 up down
+    if p2.ycor() + 70 >= VERTICAL_BOARD_LIMIT :
+        p2.sety(VERTICAL_BOARD_LIMIT - 70)
+
+    if p2.ycor() - 70 <= -VERTICAL_BOARD_LIMIT :
+        p2.sety(-VERTICAL_BOARD_LIMIT + 70)
+
+    # ball left right (score)
+    if ball.xcor() < -HORIZONTAL_BOARD_LIMIT :
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer2 += 1
         updateScoreboard()
 
-    if ball.xcor() > horizontalBoardLimit :
+    if ball.xcor() > HORIZONTAL_BOARD_LIMIT :
         ball.goto(0, 0)
         ball.dx *= -1
         pointsPlayer1 += 1
         updateScoreboard()
 
-    if ball.xcor() < -playerRectanglePosition :
+    # ball hitting paddles
+    if ball.xcor() < -PADDLE_LINE :
         paddle1 = p1.ycor()
         if paddle1 + 70 >= ball.ycor() >= paddle1 - 70:
-            ball.setx(-playerRectanglePosition)
+            ball.setx(-PADDLE_LINE)
             ball.color(L_PADDLE_COLOR)
             ball.dx *= -1
 
-    if ball.xcor() > playerRectanglePosition :
+    if ball.xcor() > PADDLE_LINE :
         paddle2 = p2.ycor()
         if  paddle2 + 70 >= ball.ycor() >= paddle2 - 70 :
-            ball.setx(playerRectanglePosition)
+            ball.setx(PADDLE_LINE)
             ball.color(R_PADDLE_COLOR)
             ball.dx *= -1
