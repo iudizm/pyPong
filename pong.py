@@ -7,7 +7,7 @@ def updateScoreboard():
 def createPlayer() :
     player = turtle.Turtle()
     player.shape("square")
-    player.shapesize(stretch_len = 7)
+    player.shapesize(stretch_len = 7, stretch_wid=0.5)
     player.speed(20)
     player.penup()
     player.left(90)
@@ -105,14 +105,14 @@ while True:
         pointsPlayer1 += 1
         updateScoreboard()
 
-    if ball.xcor() <= -playerRectanglePosition :
+    if ball.xcor() < -playerRectanglePosition :
         paddle1 = p1.ycor()
         if paddle1 + 70 >= ball.ycor() >= paddle1 - 70:
             ball.setx(-playerRectanglePosition)
             ball.color("#d3e4d3")
             ball.dx *= -1
 
-    if ball.xcor() >= playerRectanglePosition :
+    if ball.xcor() > playerRectanglePosition :
         paddle2 = p2.ycor()
         if  paddle2 + 70 >= ball.ycor() >= paddle2 - 70 :
             ball.setx(playerRectanglePosition)
