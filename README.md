@@ -1,9 +1,9 @@
 # pyPong
 
-![DEMO](demo.gif)
-
 ## About
-A basic Pong game made in python for learning reasons.
+A basic Pong game made in *pyhton3* using *Turtle Graphics.*
+
+![](pypong-v2-demo.gif)
 
 ## How to run
   ( ! ) For some linux distros it may be needed to install the `tkinter` package:
